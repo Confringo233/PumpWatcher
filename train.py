@@ -43,21 +43,21 @@ class ContrastiveLoss(nn.Module):
         diff_loss = torch.tensor(0.0, device=features.device)
 
         if positive_pairs.size(0) > 0:
-            same_distances1 = torch.cdist(positive_pairs, positive_pairs, p=2) ** 2
+            same_distances1 = torch.cdist(positive_pairs, positive_pairs, p=2)
             num_same1 = same_distances1.size(0)
             same_loss1 = same_distances1.mean()
         else:
             num_same1 = 0
 
         if negative_pairs.size(0) > 0:
-            same_distances2 = torch.cdist(negative_pairs, negative_pairs, p=2) ** 2
+            same_distances2 = torch.cdist(negative_pairs, negative_pairs, p=2)
             num_same2 = same_distances2.size(0)
             same_loss2 = same_distances2.mean()
         else:
             num_same2 = 0
 
         if positive_pairs.size(0) > 0 and negative_pairs.size(0) > 0:
-            diff_distances = torch.cdist(positive_pairs, negative_pairs, p=2) ** 2
+            diff_distances = torch.cdist(positive_pairs, negative_pairs, p=2)
             num_diff = diff_distances.size(0)
             diff_loss = F.relu(diff_distances - self.margin).mean()
         else:
